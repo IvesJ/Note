@@ -1,0 +1,39 @@
+@startuml
+
+abstract class ClassLoader {
+    # loadClass(String name, boolean resolve)
+    # findClass(String name)
+}
+
+class BaseDexClassLoader {
+    - DexPathList pathList
+
+    # findClass(String name)
+}
+
+class DexClassLoader {}
+class PathClassLoader {}
+
+class DexPathList {
+    - Element[] dexElements
+
+    + findClass(String name, List<Throwable> suppressed)
+}
+
+class Element {
+    - DexFile dexFile
+
+    + findClass(String name, ClassLoader definingContext, List<Throwable> suppressed)
+}
+
+
+ClassLoader <|-down- BaseDexClassLoader
+
+BaseDexClassLoader <|-down- DexClassLoader
+BaseDexClassLoader <|-down- PathClassLoader
+
+BaseDexClassLoader o-left-> DexPathList
+
+DexPathList +-- Element
+
+@enduml

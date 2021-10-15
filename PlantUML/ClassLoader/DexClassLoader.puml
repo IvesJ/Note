@@ -1,0 +1,20 @@
+@startuml
+
+autonumber
+
+DexClassLoader -> ClassLoader: loadClass(String name, boolean resolve)
+ClassLoader -> ClassLoader: findLoadedClass(String name)
+
+ClassLoader -> BaseDexClassLoader: findClass(String name)
+
+BaseDexClassLoader -> DexPathList: findClass(String name)
+DexPathList -> Element: findClass(String name, List<Throwable> suppressed)
+Element -> DexFile: findClass(String name, ClassLoader definingContext, List<Throwable> suppressed)
+DexFile -> DexFile: loadClassBinaryName()
+
+DexFile --> Element: Class<?>
+Element --> DexPathList: Class<?>
+DexPathList --> BaseDexClassLoader: Class<?>
+BaseDexClassLoader --> DexClassLoader: Class<?>
+
+@enduml
